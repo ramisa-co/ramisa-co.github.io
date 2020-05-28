@@ -1,32 +1,37 @@
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap");
 
-        * {
-            margin: 0;
-            padding: 0;
-        }
-        img {
-            height: 100vh;
-            width: inherit;
-            overflow-x: hidden;
-        }
-        body {
-            font-family: 'Chelsea Market', cursive;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-            text-align: center;
-            max-width: 100vw;
-        }
-        p {
-            font-size: 8vmin; 
-            margin: 5rem 0;
-            padding: 1rem;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      img {
+        height: 100vh;
+        /* width: inherit; */
+        overflow-x: hidden;
+      }
+      html,
+      body {
+        overflow-x: hidden;
+      }
+      body {
+        font-family: "Chelsea Market", cursive;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        position: relative;
+      }
+      p {
+        font-size: 8vmin;
+        margin: 5rem 0;
+        padding: 1rem;
+      }
     </style>
   </head>
   <body>
@@ -35,7 +40,7 @@
     <p>Meme'in yourself before memes were memes.</p>
     <img src="./images/2.jpg" />
     <p>From the elementary Polser days.</p>
-    <img src="./images/3.jpg" />
+    <img src="./images/3.jpg" style="height: initial; width: 150vw;" />
     <p>To roughin' out tourists in Time Square.</p>
     <img src="./images/4.jpg" />
     <p>You always seemed fearless.</p>
@@ -43,35 +48,50 @@
     <p>Despite just being a lame emo kid like the rest of us.</p>
     <img src="./images/6.png" />
     <p>But there's always been something beautiful with your mind.</p>
-    <img src="./images/7.jpg" />
+    <img src="./images/7.jpg" style="height: initial; width: 180vw;" />
     <p>I can't wait to see what you do with it.</p>
     <img src="./images/ramisa-sparkle.gif" />
     <p>Happy Graduation.</p>
-    <p>Here are  a few things a newly formed creative adult needs:</p>
-    <p>Safes: Because your name means safe, and first thing you need in adulting, a safe space for your personal stuff.</p>
-    <p>Website: The other thing an adulting creative like you needs. ramisa.co has a cool ring to it huh? You also have ramisa@ramisa.co.</p>
-    <p>And one more thing...</p>
+    <p>Here are a few things a newly formed creative adult needs:</p>
     <p>
-        <button id="trigger-ifttt" style="font-size:8rem">Press the Button</button>
+      Safes: Because your name means safe, and first thing you need in adulting,
+      a safe space for your personal stuff.
+    </p>
+    <p>
+      Website: The other thing an adulting creative like you needs. ramisa.co
+      has a cool ring to it huh? You also have ramisa@ramisa.co.
+    </p>
+    <p>And one more thing...</p>
+    <p id="press-the-button">
+      <button id="trigger-ifttt" style="font-size: 2rem;">
+        Press the Button
+      </button>
     </p>
     <script>
-        const $el = document.querySelector('#trigger-ifttt')
-        $el.addEventListener('click', function() {
-            var http = new XMLHttpRequest();
-            var url = 'https://maker.ifttt.com/trigger/ramisa/with/key/dqJSoSqJt_hGjE4X5gbaAB';
-            var params = 'orem=ipsum&name=binny';
-            http.open('POST', url, true);
+      const $el = document.querySelector("#trigger-ifttt");
+      $el.addEventListener("click", function () {
+        var http = new XMLHttpRequest();
+        var url =
+          "https://maker.ifttt.com/trigger/ramisa/with/key/dqJSoSqJt_hGjE4X5gbaAB";
+        var params = "orem=ipsum&name=binny";
+        http.open("POST", url, true);
 
-            //Send the proper header information along with the request
-            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        //Send the proper header information along with the request
+        http.setRequestHeader(
+          "Content-type",
+          "application/x-www-form-urlencoded"
+        );
 
-            http.onreadystatechange = function() {//Call a function when the state changes.
-                if(http.readyState == 4 && http.status == 200) {
-                    alert(http.responseText);
-                }
-            }
-            http.send(params);
-        })
+        http.onreadystatechange = function () {
+          //Call a function when the state changes.
+          if (http.readyState == 4 && http.status == 200) {
+            alert(http.responseText);
+          }
+        };
+        http.send(params);
+        document.querySelector("#press-the-button").innerHTML =
+          "Another surprise is on the way... You'll get a call soon...";
+      });
     </script>
   </body>
 </html>
