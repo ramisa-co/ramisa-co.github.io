@@ -3,6 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
 
       * {
         margin: 0;
@@ -12,13 +13,16 @@
         height: 100vh;
         /* width: inherit; */
         overflow-x: hidden;
+        position: fixed;
+        z-index: -1;
       }
       html,
       body {
         overflow-x: hidden;
       }
       body {
-        font-family: "Chelsea Market", cursive;
+        /* font-family: "Chelsea Market", cursive; */
+        font-family: 'Raleway', sans-serif;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -26,15 +30,37 @@
         text-align: center;
         width: 100%;
         position: relative;
+        font-size: x-large;
+        background-color: black;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
       p {
         font-size: 8vmin;
         margin: 5rem 0;
         padding: 1rem;
       }
+      a {
+        text-decoration: none;
+        color: white;
+      }
+      a:hover {
+        color: orange
+      }
+      .info {
+        position: fixed;
+        color: white;
+        top: 50%;
+        transform: translateY(-50%);
+      }
     </style>
   </head>
   <body>
     <img src="./images/ramisa-sparkle.gif" />
+    <div class="info">
+      <h1>RAMISA CHOWDHURY</h1>
+      <a href="https://www.linkedin.com/in/ramisachowdhury/">linkedin</a>
+      <a href="https://github.com/rrchow97">github</a>
+    </div>
   </body>
 </html>
