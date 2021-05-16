@@ -2,11 +2,70 @@
 <html>
   <head>
     <title>Mini Apps</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: rgb(58, 9, 30);
+        color: white;
+        font-family: 'Raleway', sans-serif;
+
+      }
+      a{
+        text-decoration: none;
+        color: black
+      }
+      .mini-app-header {
+        background-color: rgb(43, 6, 22);
+        height: 70px;
+        padding: 30px 0 0 40px;
+        font-size: x-large;
+        font-weight: 600;
+      }
+      .mini-app-tile {
+        margin-top: 30px;
+        margin-left: 15%;
+        width: 70%;
+        background-color: white;
+        color: black;
+        padding: 10px;
+        display:grid;
+        grid-template-columns: 50% 50%;
+      }
+      .mini-app-title{
+        margin-right: 10px;
+        text-align: center;
+        margin-top: auto;
+        margin-bottom: auto;
+        font-size: xx-large;
+      }
+      img {
+        width: 100%
+      }
+      .home {
+        color: white;
+      }
+
+      .home:hover, .mini-app-title:hover{
+        color:rgb(205, 152, 175)
+      }
+    </style>
   </head>
   <body>
-    <h1>Mini Apps</h1>
+    <div class="mini-app-header">
+      <a class="home" href="index.html">Ramisa</a> - Mini Apps
+    </div>
+
     <div>
-      <a href="mini-apps/falling-stars.html">Falling Stars</a>
+      <a href="mini-apps/falling-stars.html">
+        <div class="mini-app-tile">
+          <div class="mini-app-title">Falling Stars</div>
+          <div><img class="mini-app-thimbnail" src="images/falling-star.gif"></div>
+        </div>
+      </a>
     </div>
   </body>
 </html>
