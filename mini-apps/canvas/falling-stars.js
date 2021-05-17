@@ -141,14 +141,14 @@ function createMountainRange(mountainAmount, height, color) {
 const backgroundGradient = c.createLinearGradient(0, 0, 0, canvas.height)
 backgroundGradient.addColorStop(0, '#171e26')
 backgroundGradient.addColorStop(1, '#3f586b')
-let stars
+let grass
 let miniStars
 let ticker = 0
 let randomSpawnRate = 75
 let groundHeight = 100
 
 function init() {
-  stars = []
+  grass = []
   miniStars = []
   backgroundStars = []
   for (let i = 0; i < 150; i++) {
@@ -178,10 +178,10 @@ function animate() {
   c.fillStyle = '#182028'
   c.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight)
 
-  stars.forEach((star, index) => {
+  grass.forEach((star, index) => {
     star.update()
     if (star.radius - 3 <= 0) {
-      stars.splice(index, 1)
+      grass.splice(index, 1)
     }
   })
 
@@ -197,7 +197,7 @@ function animate() {
   if (ticker === randomSpawnRate) {
     const radius = 14
     const x = Math.random() * (canvas.width - radius * 2) + radius
-    stars.push(new Star(x, -100, randomIntFromRange(7, radius), 'white'))
+    grass.push(new Star(x, -100, randomIntFromRange(7, radius), 'white'))
     randomSpawnRate = randomIntFromRange(75, 150)
     ticker = 0
   }
