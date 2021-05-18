@@ -1,5 +1,3 @@
-// import utils from '../utils.js'
-
 var canvas = document.querySelector('canvas')
 
 canvas.width = innerWidth
@@ -9,7 +7,7 @@ var c = canvas.getContext('2d')
 
 var maxPollenSize = 4
 var minPollenSize = 1
-var mouseRadius = 100
+var mouseRadius = 50
 
 var treeAmt = 'High'
 var grassAmt = 'Very High'
@@ -36,13 +34,6 @@ addEventListener('resize', () => {
 addEventListener('mousemove', (e) => {
   mouse.x = e.x
   mouse.y = e.y
-  // console.log(mouse)
-})
-
-addEventListener('touchmove', (e) => {
-  mouse.x = e.x
-  mouse.y = e.y
-  // console.log(mouse)
 })
 
 // -----------------------------------------------------------
@@ -50,8 +41,8 @@ addEventListener('touchmove', (e) => {
 // -----------------------------------------------------------
 
 function Pollen(x, y, radius, rgb) {
-  this.x = x
-  this.velocity = (2 ** radius) * 0.01 * [-1, 1][Math.round(Math.random())]
+  this.trueX = x
+  this.velocity = (2.5 ** radius) * 0.01 * [-1, 1][Math.round(Math.random())]
   this.radius = radius
   this.rgb = rgb
 
@@ -61,7 +52,10 @@ function Pollen(x, y, radius, rgb) {
   this.c = randomFromRange(5, 15)
   this.d = y
 
-  this.y = this.a * Math.sin(this.b * (this.x + this.c)) + this.d
+  this.trueY = this.a * Math.sin(this.b * (this.trueX + this.c)) + this.d
+
+  this.x = this.trueX
+  this.y = this.trueY
 }
 
 Pollen.prototype.draw = function() {
@@ -80,35 +74,43 @@ Pollen.prototype.update = function() {
   this.draw()
 
   if (this.x + this.radius + this.velocity > canvas.width + 20) {
-    this.x = -10
+    this.trueX = -10
+    this.x = this.trueX
   }
 
   if (this.x + this.radius + this.velocity < -20) {
-    this.x = canvas.width + 10
+    this.trueX = canvas.width + 10
+    this.x = this.trueX
   }
 
-  this.x += this.velocity
-  this.y = this.a * Math.sin(this.b * (this.x + this.c)) + this.d
+  this.trueX += this.velocity
+  this.trueY = this.a * Math.sin(this.b * (this.trueX + this.c)) + this.d
+
+  this.x = this.trueX
+  this.y = this.trueY
 
   var opposite = this.y - mouse.y
   var adjacent = this.x -  mouse.x
   var theta = Math.atan2(opposite, adjacent)
 
-  if (this.y + this.radius > canvas.height || this.y + this.radius < 0) {
-    this.d = randomFromRange(this.radius * 2, canvas.height-(this.radius * 2))
-    this.y = this.a * Math.sin(this.b * (this.x + this.c)) + this.d
-    if (this.velocity < 1) {
-      this.x = canvas.width + maxPollenSize
-    } else {
-      this.x = -maxPollenSize
-    }
-  }
+  // if (this.y + this.radius > canvas.height || this.y + this.radius < 0) {
+  //   this.d = randomFromRange(this.radius * 2, canvas.height-(this.radius * 2))
+  //   this.trueY = this.a * Math.sin(this.b * (this.trueX + this.c)) + this.d
+  //   this.y = this.trueY
+  //   if (this.velocity < 1) {
+  //     this.trueX = canvas.width + maxPollenSize
+  //     this.x = this.trueX
+  //   } else {
+  //     this.trueX = -maxPollenSize
+  //     this.x = this.trueX
+  //   }
+  // }
 
-  if (Math.abs(Math.hypot(mouse.x - this.x, mouse.y - this.y)) < mouseRadius) {
+  if (Math.abs(Math.hypot(mouse.x - this.trueX, mouse.y - this.trueY)) < mouseRadius * this.radius) {
     this.previousY = mouse.y
-    this.x = mouse.x + Math.cos(theta) * mouseRadius
-    this.y = mouse.y + Math.sin(theta) * mouseRadius
-    this.d = this.y - this.a * Math.sin(this.b * (this.x + this.c))
+    this.x = mouse.x + Math.cos(theta) * mouseRadius * this.radius
+    this.y = mouse.y + Math.sin(theta) * mouseRadius * this.radius
+
   }
 }
 
@@ -136,8 +138,9 @@ function createMountainRange(mountainAmount, height, color) {
 // -----------------------------------------------------------
 
 const backgroundGradient = c.createLinearGradient(0, 0, 0, canvas.height)
-backgroundGradient.addColorStop(0, '#171e26')
-backgroundGradient.addColorStop(1, '#3f586b')
+backgroundGradient.addColorStop(0, '#54beff')
+backgroundGradient.addColorStop(0.4, '#a1dbff')
+backgroundGradient.addColorStop(1, '#a1dbff')
 let pollen
 let groundHeight = 100
 
@@ -150,25 +153,36 @@ function init(grassAmt, treeAmt, weedAmt) {
   var weedDensity = weedAmt * 50
 
   var density = 18000
+
+  // for (let i = 0; i < 1; i++) {
+  //   const x = Math.random() * canvas.width
+  //   const y = Math.random() * canvas.height
+  //   const radius = 5
+  //   pollen.push(new Pollen(x, y, radius, '133, 176, 53'))
+  // }
+
+
+
+
   for (let i = 0; i < area/density * pollenDensity[grassAmt]; i++) {
     const x = Math.random() * canvas.width
     const y = Math.random() * canvas.height
     const radius = randomFromRange(minPollenSize, maxPollenSize)
-    pollen.push(new Pollen(x, y, radius, '133, 176, 53'))
+    pollen.push(new Pollen(x, y, radius, '191, 255, 166'))
   }
 
   for (let i = 0; i < area/density * pollenDensity[treeAmt]; i++) {
     const x = Math.random() * canvas.width
     const y = Math.random() * canvas.height
     const radius = randomFromRange(minPollenSize, maxPollenSize)
-    pollen.push(new Pollen(x, y, radius, '237, 85, 209'))
+    pollen.push(new Pollen(x, y, radius, '255, 222, 166'))
   }
 
   for (let i = 0; i < area/density * pollenDensity[weedAmt]; i++) {
     const x = Math.random() * canvas.width
     const y = Math.random() * canvas.height
     const radius = randomFromRange(minPollenSize, maxPollenSize)
-    pollen.push(new Pollen(x, y, radius, '255, 142, 56'))
+    pollen.push(new Pollen(x, y, radius, '255, 204, 250'))
   }
 }
 
@@ -179,7 +193,15 @@ function init(grassAmt, treeAmt, weedAmt) {
 function animate() {
   requestAnimationFrame(animate)
 
-  c.clearRect(0, 0, canvas.width, canvas.height)
+  // c.clearRect(0, 0, canvas.width, canvas.height)
+  c.fillStyle = backgroundGradient
+  c.fillRect(0, 0, canvas.width, canvas.height)
+
+  createMountainRange(1, canvas.height - 50, '#635949')
+  createMountainRange(2, canvas.height - 100, '#5e4e33')
+  createMountainRange(3, canvas.height - 300, '#544224')
+  c.fillStyle = '#437d2c'
+  c.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight)
 
   pollen.forEach((pollen, index) => {
     pollen.update()
